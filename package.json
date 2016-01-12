@@ -1,6 +1,6 @@
 {
   "name": "react-swipe-actions",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "ReactJS component adding swipe action to list items",
   "main": "lib/index.js",
   "files": [
