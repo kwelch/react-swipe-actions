@@ -32,6 +32,7 @@
   },
   "scripts": {
     "clean": "rimraf lib",
+    "check": "npm run lint",
     "lint": "eslint src",
     "build": "babel src --out-dir lib",
     "test": "echo \"Error: no test specified\" && exit 1",
