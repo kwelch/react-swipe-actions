@@ -2,7 +2,7 @@
  * Created by Kyle on 1/10/2016.
  */
 import React from 'react';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import App from './Containers/App';
 
 'use strict';
