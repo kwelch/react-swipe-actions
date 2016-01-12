@@ -29,4 +29,4 @@ const listItems = [{
 render(<App
   actionEvents={actionEvents}
   listItems={listItems}
-/>, document.getElementById("app"));
+/>, document.getElementById("root"));
