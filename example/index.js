@@ -11,12 +11,14 @@ const actionEvents = {
   "left": {
     className: "action-work",
     actionColor: "#004070",
-    text: "Work"
+    text: "Work",
+    action: ()=>{alert("left action")},
   },
   "right": {
     className: "action-delete",
     actionColor: "#CC0000",
-    text: "Delete"
+    text: "Delete",
+    action: ()=>{alert("right action")},
   }
 };
 

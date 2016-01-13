@@ -2,7 +2,8 @@
  * Created by Kyle on 1/10/2016.
  */
 import React, { Component } from 'react';
-import SwipeableListItem from 'react-swipe-actions';
+//import SwipeableListItem from 'react-swipe-actions';
+import SwipeableListItem from '../../lib/index';
 
 export default class App extends React.Component {
   render() {
@@ -13,14 +14,15 @@ export default class App extends React.Component {
       margin: 0
     }}
     >
-      { this.props.listItems.map(i=> {
-        return <SwipeableListItem
+      { this.props.listItems.map((item, index) => {
+        return (<SwipeableListItem
+          key={index}
           actions={this.props.actionEvents}
-          actionDirection={i.actionDirection}
-          actionDistance={i.actionDistance}
+          actionDirection={item.actionDirection}
+          actionDistance={item.actionDistance}
         >
-          <span>{i.text}</span>
-        </SwipeableListItem>
+          <span>{item.text}</span>
+        </SwipeableListItem>);
       }) }
     </ul>);
   }

@@ -16,6 +16,9 @@ class SwipableListItem extends Component {
         current: { x: 0, y: 0 },
       },
     };
+    this.onMoveStart = this.onMoveStart.bind(this);
+    this.onMoving = this.onMoving.bind(this);
+    this.onMoveEnd = this.onMoveEnd.bind(this);
   }
 
   onMoveStart(event) {
@@ -31,7 +34,7 @@ class SwipableListItem extends Component {
 
   onMoving(event) {
     if (this.state.dragState.isDown) {
-      const actionCoord = this.findEventCoord(event);
+      const actionCoord = SwipableListItem.findEventCoord(event);
       const dragState = this.state.dragState;
 
       this.setState({
@@ -41,7 +44,7 @@ class SwipableListItem extends Component {
   }
 
   onMoveEnd(event) {
-    const actionCoord = this.findEventCoord(event);
+    const actionCoord = SwipableListItem.findEventCoord(event);
     const dragState = this.state.dragState;
 
     this.setState({
@@ -56,7 +59,7 @@ class SwipableListItem extends Component {
     return false;
   }
 
-  static mapActionsToArray(...actions) {
+  static mapActionsToArray(actions) {
     const actionArr = [];
     for (const key in actions) {
       if (actions.hasOwnProperty(key)) {
@@ -96,25 +99,30 @@ class SwipableListItem extends Component {
 
   render() {
     const currentAction = this.props.actions[this.state.actionDirection];
+    const actionContStyle = {
+      margin: 0,
+      padding: 0,
+      position: 'absolute',
+      top: 0,
+      height: '100%',
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'row',
+      backgroundColor: currentAction ? currentAction.actionColor : 'inherit',
+    };
     const actionCont = (
-      <div style={{
-        margin: 0,
-        padding: 0,
-        position: 'absolute',
-        top: 0,
-        height: '100%',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        backgroundColor: currentAction ? currentAction.actionColor : 'inherit',
-      }
-      }
-      >
-        { SwipableListItem.mapActionsToArray(this.props.actions).map(a => <ActionButton {...a} />) }
+      <div style={actionContStyle}>
+        {SwipableListItem.mapActionsToArray(this.props.actions).map(a => {
+          return <ActionButton key={a.direction} {...a} />;
+        })}
       </div>);
 
-    const actionStyle = currentAction && this.state.actionDistance > currentAction.minThreshold ?
-    { [this.state.actionDirection]: this.state.actionDistance } : {};
+    const actionStyle = {};
+    if (currentAction) {
+      if (this.state.actionDistance > currentAction.minThreshold || 0) {
+        actionStyle[this.state.actionDirection] = this.state.actionDistance;
+      }
+    }
 
     return (
       <li style={{ position: 'relative' }}
@@ -126,10 +134,7 @@ class SwipableListItem extends Component {
         onSelect={this.onSelect}
       >
         {actionCont}
-        <div style={
-        Object.assign({ zIndex: 1, position: 'relative' },
-        actionStyle)
-        }
+        <div style={ Object.assign({ zIndex: 1, position: 'relative' }, actionStyle) }
         >
           {this.props.children}
         </div>
@@ -139,10 +144,10 @@ class SwipableListItem extends Component {
 
 SwipableListItem.propTypes = {
   children: PropTypes.node,
-  actions: PropTypes.arrayOf(PropTypes.shape({
-    actionColor: PropTypes.string,
+  actions: PropTypes.objectOf(PropTypes.shape({
+    actionColor: PropTypes.string.isRequired,
     minThreshold: PropTypes.number,
-    text: PropTypes.string,
+    text: PropTypes.string.isRequired,
     actionThreshold: PropTypes.number,
     action: PropTypes.func.isRequired,
   })).isRequired,
