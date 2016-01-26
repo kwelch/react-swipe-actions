@@ -3,32 +3,34 @@
  */
 import React from 'react';
 import { render } from 'react-dom';
-import App from './Containers/App';
-
-'use strict';
+import SwipeActionList from 'react-swipe-actions';
 
 const actionEvents = {
-  "left": {
-    className: "action-work",
-    actionColor: "#004070",
-    text: "Work",
-    action: ()=>{alert("left action")},
+  left: {
+    className: 'action-work',
+    actionColor: '#004070',
+    text: 'Work',
+    action: () => {
+      alert('left action');
+    },
   },
-  "right": {
-    className: "action-delete",
-    actionColor: "#CC0000",
-    text: "Delete",
-    action: ()=>{alert("right action")},
-  }
+  right: {
+    className: 'action-delete',
+    actionColor: '#CC0000',
+    text: 'Delete',
+    action: () => {
+      alert('right action');
+    },
+  },
 };
 
 const listItems = [{
-  text: "Text"
+  text: 'Text',
 }, {
-  text: "Random"
+  text: 'Random',
 }];
 
-render(<App
+render(<SwipeActionList
   actionEvents={actionEvents}
   listItems={listItems}
-/>, document.getElementById("root"));
+/>, document.getElementById('root'));
